@@ -7,6 +7,7 @@ def range_2_li(li):
 
 
 def range_2_num(text):
+    text = text[0]
     l, u = int(text.split(':')[0]), int(text.split(':')[1])
     return l, u
 

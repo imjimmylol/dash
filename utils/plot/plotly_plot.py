@@ -1,8 +1,13 @@
+from re import template
 import pandas as pd
 from utils.algo.calculation import get_fbna
+from dash_bootstrap_templates import load_figure_template
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import talib
+
+templates = ["solar"]
+load_figure_template(templates)
 
 def plot(df, s, e):
     df = pd.DataFrame(df)
@@ -63,7 +68,7 @@ def plot(df, s, e):
     fig.update_layout(autosize=False,
         width=1000*0.7,
         height=700*0.7,title_font_size = 1,xaxis_rangeslider_visible=False, xaxis2_rangeslider_visible=False,
-        xaxis3_rangeslider_visible=False) 
+        xaxis3_rangeslider_visible=False, template='solar') 
 
     return fig
 
