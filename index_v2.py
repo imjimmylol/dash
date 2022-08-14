@@ -148,6 +148,7 @@ app.layout = dbc.Container([
                         html.H4("Shape-Based Similarity : ")
                     ], className="card-title"),
                     
+                    
 
                 ], className="card-body")
 
