@@ -83,7 +83,7 @@ app.layout = dbc.Container([
                     ], className="card-title"),
 
                     html.Div([
-                        dcc.Graph(id="full-wav-plot")
+                        dcc.Loading(children=[dcc.Graph(id="full-wav-plot")])
                     ])
 
                 ], className="card-body")
@@ -126,7 +126,7 @@ app.layout = dbc.Container([
                     ], className="card-title"),
                     
                     html.Div([
-                        dcc.Graph(id="searh-result-corr")
+                        dcc.Loading(children=[dcc.Graph(id="searh-result-corr")])
                     ])
 
                 ], className="card-body")
@@ -146,7 +146,7 @@ app.layout = dbc.Container([
                     ], className="card-title"),
                     
                     html.Div([
-                        dcc.Graph(id="searh-result-mink")
+                       dcc.Loading(children=[dcc.Graph(id="searh-result-mink")])
                     ])
 
                 ], className="card-body")
@@ -166,6 +166,9 @@ app.layout = dbc.Container([
                         html.H4("Dtnamic Time Wraping : ")
                     ], className="card-title"),
                     
+                    html.Div([
+                        dcc.Loading(children=[dcc.Graph(id="searh-result-dtw")])
+                    ])
 
                 ], className="card-body")
 
@@ -186,7 +189,7 @@ app.layout = dbc.Container([
                     ], className="card-title"),
                     
                     html.Div([
-                        dcc.Graph(id="searh-result-shape")
+                        dcc.Loading(children=[dcc.Graph(id="searh-result-shape")])
                     ])
 
                 ], className="card-body")
@@ -261,6 +264,36 @@ def update_graph_mink_res(Ticker, start_date, end_date):
         plotly_plot.plot(df, s = s_res, e= e_res)
     )
 
+
+@app.callback(
+    Output('searh-result-dtw', 'figure'),
+    [Input('ticker-dropdown-option', 'value'),
+    Input('date-picker-range-baseline', 'start_date'),
+    Input('date-picker-range-baseline', 'end_date')]
+)
+
+def update_graph_shape_res(Ticker, start_date, end_date):
+
+    # read data
+    df = pd.read_csv(r"./data/{}.csv".format(Ticker))
+
+    # transform date to index
+    s, e = input_process.DateIndexMap(df, start_date), input_process.DateIndexMap(df, end_date)
+
+    # search and return res
+    search_res = return_res.get_sim_res(df, s, e, 'dtw_d') # a:b
+    
+
+    # get res start and end
+    s_res, e_res = res_process.range_2_num(search_res)
+
+    return(
+        plotly_plot.plot(df, s = s_res, e= e_res)
+    )
+
+
+
+
 @app.callback(
     Output('searh-result-shape', 'figure'),
     [Input('ticker-dropdown-option', 'value'),
@@ -268,7 +301,7 @@ def update_graph_mink_res(Ticker, start_date, end_date):
     Input('date-picker-range-baseline', 'end_date')]
 )
 
-def update_graph_mink_res(Ticker, start_date, end_date):
+def update_graph_shape_res(Ticker, start_date, end_date):
 
     # read data
     df = pd.read_csv(r"./data/{}.csv".format(Ticker))
