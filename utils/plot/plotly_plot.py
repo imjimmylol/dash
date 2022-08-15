@@ -39,7 +39,7 @@ def plot(df, s, e):
 ##########################################################
 
     # condle
-    fig.add_trace(go.Candlestick(x=df.index[s:e],
+    fig.add_trace(go.Candlestick(x=df['Date'][s:e],
                                 open=df['Open'][s:e],
                                 high=df['High'][s:e],
                                 low=df['Low'][s:e],
@@ -56,19 +56,38 @@ def plot(df, s, e):
 
 
     # volume subplot
-    fig.add_trace(go.Bar(x=df.index[s:e], y=df['Volume'][s:e], name='Volume', marker={'color':df['color']}),  row = 5, col = 1)
+    fig.add_trace(go.Bar(x=df['Date'][s:e], y=df['Volume'][s:e], name='Volume', marker={'color':df['color']}),  row = 5, col = 1)
     fig.update_yaxes(title_text = "Vloume", row=5, col=1)
 
     # KD subplot
-    fig.add_trace(go.Scatter(x=df.index[s:e], y = df["k"][s:e], name = "k", mode='lines'), row=7, col=1)
-    fig.add_trace(go.Scatter(x=df.index[s:e], y = df["d"][s:e], name = "d", mode='lines'), row=7, col=1)
+    fig.add_trace(go.Scatter(x=df['Date'][s:e], y = df["k"][s:e], name = "k", mode='lines'), row=7, col=1)
+    fig.add_trace(go.Scatter(x=df['Date'][s:e], y = df["d"][s:e], name = "d", mode='lines'), row=7, col=1)
     fig.update_yaxes(title_text = "KD", row=7, col=1)
 
 
     fig.update_layout(autosize=False,
-        width=1000*0.7,
+        width=1000*0.5,
         height=700*0.7,title_font_size = 1,xaxis_rangeslider_visible=False, xaxis2_rangeslider_visible=False,
         xaxis3_rangeslider_visible=False, template='solar') 
 
     return fig
 
+
+
+def plot_all(df):
+    fig = go.Figure()
+    fig.add_trace(go.Candlestick(x=df["Date"],
+                                open=df['Open'],
+                                high=df['High'],
+                                low=df['Low'],
+                                close=df['Close'],
+                                name="Price", 
+                                ))
+    fig.update_layout(
+        yaxis = dict(
+        autorange = True,
+        fixedrange= False
+    ),template="solar"
+    )
+
+    return fig
