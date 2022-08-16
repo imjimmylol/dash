@@ -8,7 +8,7 @@ import dash
 from dash import dcc
 from dash import html
 import dash_bootstrap_components as dbc
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import pandas as pd
 import numpy as np
 from utils.data_process import input_process, res_process
@@ -65,6 +65,10 @@ app.layout = dbc.Container([
                             end_date = date(2021, 2, 5)
                         )
                     ], className="dropdown", style={"width": "100%"}),
+                    
+                    html.Br(),
+
+                    html.Button('Submit change', id='update-button')
 
 
                 ], className="card-body")
@@ -201,7 +205,7 @@ app.layout = dbc.Container([
 
 @app.callback(
     Output('full-wav-plot', 'figure'),
-    [Input('ticker-dropdown-option', 'value'),])
+    [Input('ticker-dropdown-option', 'value')])
 
 def update_graph_full(Ticker):
     # read data
@@ -214,12 +218,13 @@ def update_graph_full(Ticker):
 
 @app.callback(
     Output('searh-result-corr', 'figure'),
-    [Input('ticker-dropdown-option', 'value'),
-    Input('date-picker-range-baseline', 'start_date'),
-    Input('date-picker-range-baseline', 'end_date')]
+    [Input('update-button', component_property='n_clicks'),
+    State('ticker-dropdown-option', 'value'),
+    State('date-picker-range-baseline', 'start_date'),
+    State('date-picker-range-baseline', 'end_date')]
 )
 
-def update_graph_corr_res(Ticker, start_date, end_date):
+def update_graph_corr_res(n,Ticker, start_date, end_date):
 
     # read data
     df = pd.read_csv(r"./data/{}.csv".format(Ticker))
@@ -240,12 +245,13 @@ def update_graph_corr_res(Ticker, start_date, end_date):
 
 @app.callback(
     Output('searh-result-mink', 'figure'),
-    [Input('ticker-dropdown-option', 'value'),
-    Input('date-picker-range-baseline', 'start_date'),
-    Input('date-picker-range-baseline', 'end_date')]
+    [Input('update-button', component_property='n_clicks'),
+    State('ticker-dropdown-option', 'value'),
+    State('date-picker-range-baseline', 'start_date'),
+    State('date-picker-range-baseline', 'end_date')]
 )
 
-def update_graph_mink_res(Ticker, start_date, end_date):
+def update_graph_mink_res(n, Ticker, start_date, end_date):
 
     # read data
     df = pd.read_csv(r"./data/{}.csv".format(Ticker))
@@ -267,12 +273,13 @@ def update_graph_mink_res(Ticker, start_date, end_date):
 
 @app.callback(
     Output('searh-result-dtw', 'figure'),
-    [Input('ticker-dropdown-option', 'value'),
-    Input('date-picker-range-baseline', 'start_date'),
-    Input('date-picker-range-baseline', 'end_date')]
+    [Input('update-button', component_property='n_clicks'),
+    State('ticker-dropdown-option', 'value'),
+    State('date-picker-range-baseline', 'start_date'),
+    State('date-picker-range-baseline', 'end_date')]
 )
 
-def update_graph_shape_res(Ticker, start_date, end_date):
+def update_graph_shape_res(n, Ticker, start_date, end_date):
 
     # read data
     df = pd.read_csv(r"./data/{}.csv".format(Ticker))
@@ -296,12 +303,13 @@ def update_graph_shape_res(Ticker, start_date, end_date):
 
 @app.callback(
     Output('searh-result-shape', 'figure'),
-    [Input('ticker-dropdown-option', 'value'),
-    Input('date-picker-range-baseline', 'start_date'),
-    Input('date-picker-range-baseline', 'end_date')]
+    [Input('update-button', component_property='n_clicks'),
+    State('ticker-dropdown-option', 'value'),
+    State('date-picker-range-baseline', 'start_date'),
+    State('date-picker-range-baseline', 'end_date')]
 )
 
-def update_graph_shape_res(Ticker, start_date, end_date):
+def update_graph_shape_res(n, Ticker, start_date, end_date):
 
     # read data
     df = pd.read_csv(r"./data/{}.csv".format(Ticker))
