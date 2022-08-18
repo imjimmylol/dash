@@ -3,6 +3,26 @@ import numpy as np
 from dtaidistance import dtw
 from tqdm import tqdm
 import pandas as pd
+import warnings
+warnings.simplefilter('ignore', np.RankWarning)
+
+def arr2poly_coef(arr):
+    x = np.array([i for i in range(len(arr))])
+    res = np.polyfit(x, arr, len(arr))
+    return  res
+
+def rms(x):
+    return np.sqrt(np.mean(x**2))
+
+def poly2on(poly_coeff):
+    orth_coef = np.polynomial.legendre.poly2leg(poly_coeff[::-1])
+    leg_norms = np.array([rms(np.polynomial.Legendre(v)(x)) for v in np.eye(len(poly_coeff))])
+    return orth_coef*leg_norms
+
+
+def poly_d(arr1, arr2):
+    onpoly1, onpoly2 = poly2on(arr2poly_coef(arr1)), poly2on(arr2poly_coef(arr2))
+    return sum((onpoly1 - onpoly2)**2)
 
 
 def get_slope(arr):
@@ -82,6 +102,9 @@ def corr(arr1, arr2):
     return np.corrcoef(arr1, arr2)[0][1]
 def dtw_d(arr1, arr2):
     return dtw.distance(arr1, arr2)
+
+
+
 
 def get_fbna(_min, _max):
     dif = _max-_min

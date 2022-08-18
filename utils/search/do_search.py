@@ -29,6 +29,9 @@ class search():
             elif algo_option == "shape_d":
                 res = shape_d(self.baseline_wav, target_wav)
 
+            elif algo_option == "poly_d":
+                res = poly_d(self.baseline_wav, target_wav)
+
 
             if res != None:
 
