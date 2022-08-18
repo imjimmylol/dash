@@ -15,6 +15,7 @@ def rms(x):
     return np.sqrt(np.mean(x**2))
 
 def poly2on(poly_coeff):
+    x = np.array([i for i in range(len(poly_coeff))])
     orth_coef = np.polynomial.legendre.poly2leg(poly_coeff[::-1])
     leg_norms = np.array([rms(np.polynomial.Legendre(v)(x)) for v in np.eye(len(poly_coeff))])
     return orth_coef*leg_norms
