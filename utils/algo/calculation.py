@@ -23,7 +23,7 @@ def poly2on(poly_coeff):
 
 def poly_d(arr1, arr2):
     onpoly1, onpoly2 = poly2on(arr2poly_coef(arr1)), poly2on(arr2poly_coef(arr2))
-    return sum((onpoly1 - onpoly2)**2)
+    return np.sqrt(sum((onpoly1 - onpoly2)**2))
 
 
 def get_slope(arr):
