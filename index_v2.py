@@ -3,7 +3,7 @@ from distutils.log import debug
 from pydoc import classname
 from tkinter.tix import InputOnly
 from tkinter.ttk import Style
-from turtle import width
+from turtle import st, width
 import dash
 from dash import dcc
 from dash import html
@@ -200,8 +200,32 @@ app.layout = dbc.Container([
 
             ], className="card border-primary mb-3"),  
         ])
+    ]),
+
+    dbc.Row([
+        dbc.Col([
+            html.Div([
+                
+                html.Div([
+
+                    html.Div([
+                        html.H4("Polynomial Similarity : ")
+                    ], className="card-title"),
+                    
+                    html.Div([
+                        dcc.Loading(children=[dcc.Graph(id="searh-result-poly")])
+                    ])
+
+                ], className="card-body")
+
+            ], className="card border-primary mb-3"),  
+        ]),
+
+
+        dbc.Col([])
+        ]),
+       
     ])
-])
 
 @app.callback(
     Output('full-wav-plot', 'figure'),
@@ -224,7 +248,7 @@ def update_graph_full(Ticker):
     State('date-picker-range-baseline', 'end_date')]
 )
 
-def update_graph_corr_res(n,Ticker, start_date, end_date):
+def update_graph_corr_res(n,Ticker, start_date, end_date, step=10):
 
     # read data
     df = pd.read_csv(r"./data/{}.csv".format(Ticker))
@@ -240,7 +264,7 @@ def update_graph_corr_res(n,Ticker, start_date, end_date):
     s_res, e_res = res_process.range_2_num(search_res)
 
     return(
-        plotly_plot.plot(df, s = s_res, e= e_res)
+        plotly_plot.plot(df, s = s_res-step, e= e_res+step, step = step)
     )
 
 @app.callback(
@@ -251,7 +275,7 @@ def update_graph_corr_res(n,Ticker, start_date, end_date):
     State('date-picker-range-baseline', 'end_date')]
 )
 
-def update_graph_mink_res(n, Ticker, start_date, end_date):
+def update_graph_mink_res(n,Ticker, start_date, end_date, step=10):
 
     # read data
     df = pd.read_csv(r"./data/{}.csv".format(Ticker))
@@ -267,7 +291,7 @@ def update_graph_mink_res(n, Ticker, start_date, end_date):
     s_res, e_res = res_process.range_2_num(search_res)
 
     return(
-        plotly_plot.plot(df, s = s_res, e= e_res)
+        plotly_plot.plot(df, s = s_res-step, e= e_res+step, step = step)
     )
 
 
@@ -279,7 +303,7 @@ def update_graph_mink_res(n, Ticker, start_date, end_date):
     State('date-picker-range-baseline', 'end_date')]
 )
 
-def update_graph_shape_res(n, Ticker, start_date, end_date):
+def update_graph_shape_res(n,Ticker, start_date, end_date, step=10):
 
     # read data
     df = pd.read_csv(r"./data/{}.csv".format(Ticker))
@@ -295,7 +319,7 @@ def update_graph_shape_res(n, Ticker, start_date, end_date):
     s_res, e_res = res_process.range_2_num(search_res)
 
     return(
-        plotly_plot.plot(df, s = s_res, e= e_res)
+        plotly_plot.plot(df, s = s_res-step, e= e_res+step, step = step)
     )
 
 
@@ -309,7 +333,7 @@ def update_graph_shape_res(n, Ticker, start_date, end_date):
     State('date-picker-range-baseline', 'end_date')]
 )
 
-def update_graph_shape_res(n, Ticker, start_date, end_date):
+def update_graph_shape_res(n, Ticker, start_date, end_date, step=10):
 
     # read data
     df = pd.read_csv(r"./data/{}.csv".format(Ticker))
@@ -323,12 +347,37 @@ def update_graph_shape_res(n, Ticker, start_date, end_date):
 
     # get res start and end
     s_res, e_res = res_process.range_2_num(search_res)
-
+    print(s_res, e_res)
     return(
-        plotly_plot.plot(df, s = s_res, e= e_res)
+        plotly_plot.plot(df, s = s_res-step, e= e_res+step, step = step)
     )
 
+@app.callback(
+    Output('searh-result-poly', 'figure'),
+    [Input('update-button', component_property='n_clicks'),
+    State('ticker-dropdown-option', 'value'),
+    State('date-picker-range-baseline', 'start_date'),
+    State('date-picker-range-baseline', 'end_date')]
+)
 
+def update_graph_poly_res(n, Ticker, start_date, end_date, step=10):
+
+    # read data
+    df = pd.read_csv(r"./data/{}.csv".format(Ticker))
+
+    # transform date to index
+    s, e = input_process.DateIndexMap(df, start_date), input_process.DateIndexMap(df, end_date)
+
+    # search and return res
+    search_res = return_res.get_sim_res(df, s, e, 'poly_d') # a:b
+    
+
+    # get res start and end
+    s_res, e_res = res_process.range_2_num(search_res)
+    print(s_res, e_res)
+    return(
+        plotly_plot.plot(df, s = s_res-step, e= e_res+step, step = step)
+    )
 
 if __name__ == '__main__':
     app.run_server(debug=True)
