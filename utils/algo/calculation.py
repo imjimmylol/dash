@@ -17,7 +17,7 @@ def rms(x):
 def poly2on(poly_coeff):
     x = np.array([i for i in range(len(poly_coeff))])
     orth_coef = np.polynomial.legendre.poly2leg(poly_coeff[::-1])
-    coef_norm = np.linalg.norm(orth_coef)
+    # coef_norm = np.linalg.norm(orth_coef)
     leg_norms = np.array([rms(np.polynomial.Legendre(v)(x)) for v in np.eye(len(poly_coeff))])
     return orth_coef*leg_norms
     # return orth_coef/coef_norm
@@ -31,7 +31,8 @@ def poly_cos_d(arr1, arr2):
     onpoly1, onpoly2 = poly2on(arr2poly_coef(arr1)), poly2on(arr2poly_coef(arr2))
     num = float(np.dot(onpoly1, onpoly2))
     denom = np.linalg.norm(onpoly1) * np.linalg.norm(onpoly2)
-    return 0.5 + 0.5 * (num / denom) if denom != 0 else 0
+    # return 0.5 + 0.5 * (num / denom) if denom != 0 else 0
+    return num/denom
    
 
 def get_slope(arr):
