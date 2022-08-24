@@ -222,7 +222,24 @@ app.layout = dbc.Container([
         ]),
 
 
-        dbc.Col([])
+        dbc.Col([
+
+            html.Div([
+                
+                html.Div([
+
+                    html.Div([
+                        html.H4("Polynomial Similarity cos: ")
+                    ], className="card-title"),
+                    
+                    html.Div([
+                        dcc.Loading(children=[dcc.Graph(id="searh-result-polycos")])
+                    ])
+
+                ], className="card-body")
+
+            ], className="card border-primary mb-3"), 
+        ])
         ]),
        
     ])
@@ -378,6 +395,35 @@ def update_graph_poly_res(n, Ticker, start_date, end_date, step=10):
     return(
         plotly_plot.plot(df, s = s_res-step, e= e_res+step, step = step)
     )
+
+
+@app.callback(
+    Output('searh-result-polycos', 'figure'),
+    [Input('update-button', component_property='n_clicks'),
+    State('ticker-dropdown-option', 'value'),
+    State('date-picker-range-baseline', 'start_date'),
+    State('date-picker-range-baseline', 'end_date')]
+)
+
+def update_graph_poly_res(n, Ticker, start_date, end_date, step=10):
+
+    # read data
+    df = pd.read_csv(r"./data/{}.csv".format(Ticker))
+
+    # transform date to index
+    s, e = input_process.DateIndexMap(df, start_date), input_process.DateIndexMap(df, end_date)
+
+    # search and return res
+    search_res = return_res.get_sim_res(df, s, e, 'polycos_d') # a:b
+    
+
+    # get res start and end
+    s_res, e_res = res_process.range_2_num(search_res)
+    print(s_res, e_res)
+    return(
+        plotly_plot.plot(df, s = s_res-step, e= e_res+step, step = step)
+    )
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)

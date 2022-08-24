@@ -6,7 +6,7 @@ import numpy as np
 
 def get_sim_res(df, s, e, algo = None, rank = 1):
     '''
-    algo = ["shape_d", "mink_d", "corr_d", "dtw_d"]
+    algo = ["shape_d", "mink_d", "corr_d", "dtw_d", "poly_d", "polycos_d"]
     rank is the top three similar interval
     '''
 
@@ -24,7 +24,7 @@ def get_sim_res(df, s, e, algo = None, rank = 1):
     res_d['{}'.format(algo)] = search.run_search_test(algo_option=algo)
 
     # sort dict
-    if algo=="corr_d":
+    if algo=="corr_d" or algo=="polycos_d":
         res_d_sorted = dict(sorted(res_d[algo].items(), key=lambda item: item[1], reverse=True))
     else:
         res_d_sorted = dict(sorted(res_d[algo].items(), key=lambda item: item[1]))

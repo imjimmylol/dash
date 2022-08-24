@@ -25,6 +25,12 @@ def poly_d(arr1, arr2):
     onpoly1, onpoly2 = poly2on(arr2poly_coef(arr1)), poly2on(arr2poly_coef(arr2))
     return np.sqrt(sum((onpoly1 - onpoly2)**2))
 
+def poly_cos_d(arr1, arr2):
+    onpoly1, onpoly2 = poly2on(arr2poly_coef(arr1)), poly2on(arr2poly_coef(arr2))
+    num = float(np.dot(onpoly1, onpoly2))
+    denom = np.linalg.norm(onpoly1) * np.linalg.norm(onpoly2)
+    return 0.5 + 0.5 * (num / denom) if denom != 0 else 0
+
 
 def get_slope(arr):
     arr_series = pd.Series(arr)

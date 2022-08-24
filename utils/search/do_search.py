@@ -32,6 +32,8 @@ class search():
             elif algo_option == "poly_d":
                 res = poly_d(self.baseline_wav, target_wav)
 
+            elif algo_option == "polycos_d":
+                res = poly_cos_d(self.baseline_wav, target_wav)
 
             if res != None:
 
