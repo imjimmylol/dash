@@ -24,9 +24,12 @@ def get_sim_res(df, s, e, algo = None, rank = 1):
     res_d['{}'.format(algo)] = search.run_search_test(algo_option=algo)
 
     # sort dict
-    if algo=="corr_d" or algo=="polycos_d":
+    # if algo=="corr_d" or algo=="polycos_d":
+    if algo=="corr_d":
+        print(algo)
         res_d_sorted = dict(sorted(res_d[algo].items(), key=lambda item: item[1], reverse=True))
     else:
+        print(algo)
         res_d_sorted = dict(sorted(res_d[algo].items(), key=lambda item: item[1]))
 
     # result list
