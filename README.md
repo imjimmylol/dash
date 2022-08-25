@@ -13,8 +13,26 @@ python index_v2.py
 ```
 python updatedata.py -s [start date] -t [ticker]
 ```
+4. 結果呈現
+<img src="img\demo.png" width="50%" />
 
 ## B. Utils資料夾說明
 
+- algo 
+    - calculation # 距離公式都在這裡定義
+- data_process
+    - input_process # 將輸入標準化，內建4種標準化方法
+    - res_process # 刪除輸出重複出現之區間
+- plot # 繪圖函式，於dashboard上呈現
+- search
+    - do_search # 將距離公式apply全部的資料
+    - return_res # 直接輸入目標區間，回傳搜尋結果
+
 
 ## C. 後續更新方向
+
+- 在return result中新增開高低收，並進行平均後在寫入字典（現在僅使用收盤價進行搜尋）
+
+- 更改多項式的向量距離表示法
+- 多項式分段積分，面積比大小
+- 使用者介面優化

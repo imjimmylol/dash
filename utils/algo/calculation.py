@@ -6,6 +6,8 @@ import pandas as pd
 import warnings
 warnings.simplefilter('ignore', np.RankWarning)
 
+
+# 輔助演算法所需函式
 def arr2poly_coef(arr):
     x = np.array([i for i in range(len(arr))])
     res = np.polyfit(x, arr, len(arr))
@@ -23,17 +25,13 @@ def poly2on(poly_coeff):
     # return orth_coef/coef_norm
 
 
-def poly_d(arr1, arr2):
-    onpoly1, onpoly2 = poly2on(arr2poly_coef(arr1)), poly2on(arr2poly_coef(arr2))
-    return np.sqrt(sum((onpoly1 - onpoly2)**2))
+def get_fbna(_min, _max):
+    dif = _max-_min
+    l1 = _max - 0.236*dif
+    l2 = _max - 0.382*dif
+    l3 = _max - 0.618*dif
+    return (_max, l1, l2, l3, _min)
 
-def poly_cos_d(arr1, arr2):
-    onpoly1, onpoly2 = poly2on(arr2poly_coef(arr1)), poly2on(arr2poly_coef(arr2))
-    num = float(np.dot(onpoly1, onpoly2))
-    denom = np.linalg.norm(onpoly1) * np.linalg.norm(onpoly2)
-    # return 0.5 + 0.5 * (num / denom) if denom != 0 else 0
-    return num/denom
-   
 
 def get_slope(arr):
     arr_series = pd.Series(arr)
@@ -92,6 +90,8 @@ def get_conti_t(arr):
 def norm_conti_t(arr):
     return arr/sum(arr)
 
+
+# 距離計算，Input需進行標準化
 def shape_d(arr1, arr2):
     '''
     arr 需經標準化
@@ -102,8 +102,6 @@ def shape_d(arr1, arr2):
 
     return sum(t_weight*abs(m1-m2)*abs(a1-a2))
     
-
-
 def mink_d(arr1, arr2, p = 2):
     arr1,arr2 = np.array(arr1), np.array(arr2)
     return (((arr1 - arr2) ** p).sum() ** (1 / p))
@@ -113,12 +111,16 @@ def corr(arr1, arr2):
 def dtw_d(arr1, arr2):
     return dtw.distance(arr1, arr2)
 
+def poly_d(arr1, arr2):
+    onpoly1, onpoly2 = poly2on(arr2poly_coef(arr1)), poly2on(arr2poly_coef(arr2))
+    return np.sqrt(sum((onpoly1 - onpoly2)**2))
+
+def poly_cos_d(arr1, arr2):
+    onpoly1, onpoly2 = poly2on(arr2poly_coef(arr1)), poly2on(arr2poly_coef(arr2))
+    num = float(np.dot(onpoly1, onpoly2))
+    denom = np.linalg.norm(onpoly1) * np.linalg.norm(onpoly2)
+    # return 0.5 + 0.5 * (num / denom) if denom != 0 else 0
+    return num/denom
+   
 
 
-
-def get_fbna(_min, _max):
-    dif = _max-_min
-    l1 = _max - 0.236*dif
-    l2 = _max - 0.382*dif
-    l3 = _max - 0.618*dif
-    return (_max, l1, l2, l3, _min)

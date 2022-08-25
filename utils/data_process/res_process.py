@@ -13,7 +13,7 @@ def range_2_num(text):
 
 
 def li_check_intersect(li1, li2, overlap_protion):
-    # 重疊超過一定比例就死
+    # 重疊超過一定比例就刪除
     overlap_num = int(len(li1) / overlap_protion)
     intersection = (set(li1) & set(li2))
     if len(intersection) > overlap_num:
