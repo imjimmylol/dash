@@ -265,7 +265,7 @@ def update_graph_full(Ticker):
     State('date-picker-range-baseline', 'end_date')]
 )
 
-def update_graph_corr_res(n,Ticker, start_date, end_date, step=10):
+def update_graph_corr_res(n,Ticker, start_date, end_date, step=5):
 
     # read data
     df = pd.read_csv(r"./data/{}.csv".format(Ticker))
@@ -281,7 +281,7 @@ def update_graph_corr_res(n,Ticker, start_date, end_date, step=10):
     s_res, e_res = res_process.range_2_num(search_res)
 
     return(
-        plotly_plot.plot(df, s = s_res-step, e= e_res+step, step = step)
+        plotly_plot.plot(df, s_res = s_res, e_res= e_res, step = step)
     )
 
 @app.callback(
@@ -292,7 +292,7 @@ def update_graph_corr_res(n,Ticker, start_date, end_date, step=10):
     State('date-picker-range-baseline', 'end_date')]
 )
 
-def update_graph_mink_res(n,Ticker, start_date, end_date, step=10):
+def update_graph_mink_res(n,Ticker, start_date, end_date, step=5):
 
     # read data
     df = pd.read_csv(r"./data/{}.csv".format(Ticker))
@@ -308,7 +308,7 @@ def update_graph_mink_res(n,Ticker, start_date, end_date, step=10):
     s_res, e_res = res_process.range_2_num(search_res)
 
     return(
-        plotly_plot.plot(df, s = s_res-step, e= e_res+step, step = step)
+        plotly_plot.plot(df, s_res = s_res, e_res= e_res, step = step)
     )
 
 
@@ -320,7 +320,7 @@ def update_graph_mink_res(n,Ticker, start_date, end_date, step=10):
     State('date-picker-range-baseline', 'end_date')]
 )
 
-def update_graph_shape_res(n,Ticker, start_date, end_date, step=10):
+def update_graph_shape_res(n,Ticker, start_date, end_date, step=5):
 
     # read data
     df = pd.read_csv(r"./data/{}.csv".format(Ticker))
@@ -336,7 +336,7 @@ def update_graph_shape_res(n,Ticker, start_date, end_date, step=10):
     s_res, e_res = res_process.range_2_num(search_res)
 
     return(
-        plotly_plot.plot(df, s = s_res-step, e= e_res+step, step = step)
+        plotly_plot.plot(df, s_res = s_res, e_res= e_res, step = step)
     )
 
 
@@ -350,7 +350,7 @@ def update_graph_shape_res(n,Ticker, start_date, end_date, step=10):
     State('date-picker-range-baseline', 'end_date')]
 )
 
-def update_graph_shape_res(n, Ticker, start_date, end_date, step=10):
+def update_graph_shape_res(n, Ticker, start_date, end_date, step=5):
 
     # read data
     df = pd.read_csv(r"./data/{}.csv".format(Ticker))
@@ -366,7 +366,7 @@ def update_graph_shape_res(n, Ticker, start_date, end_date, step=10):
     s_res, e_res = res_process.range_2_num(search_res)
     print(s_res, e_res)
     return(
-        plotly_plot.plot(df, s = s_res-step, e= e_res+step, step = step)
+        plotly_plot.plot(df, s_res = s_res, e_res= e_res, step = step)
     )
 
 @app.callback(
@@ -377,7 +377,7 @@ def update_graph_shape_res(n, Ticker, start_date, end_date, step=10):
     State('date-picker-range-baseline', 'end_date')]
 )
 
-def update_graph_poly_res(n, Ticker, start_date, end_date, step=10):
+def update_graph_poly_res(n, Ticker, start_date, end_date, step=5):
 
     # read data
     df = pd.read_csv(r"./data/{}.csv".format(Ticker))
@@ -393,7 +393,7 @@ def update_graph_poly_res(n, Ticker, start_date, end_date, step=10):
     s_res, e_res = res_process.range_2_num(search_res)
     print(s_res, e_res)
     return(
-        plotly_plot.plot(df, s = s_res-step, e= e_res+step, step = step)
+        plotly_plot.plot(df, s_res = s_res, e_res= e_res, step = step)
     )
 
 
@@ -405,7 +405,7 @@ def update_graph_poly_res(n, Ticker, start_date, end_date, step=10):
     State('date-picker-range-baseline', 'end_date')]
 )
 
-def update_graph_poly_res(n, Ticker, start_date, end_date, step=10):
+def update_graph_poly_res(n, Ticker, start_date, end_date, step=5):
 
     # read data
     df = pd.read_csv(r"./data/{}.csv".format(Ticker))
@@ -421,7 +421,7 @@ def update_graph_poly_res(n, Ticker, start_date, end_date, step=10):
     s_res, e_res = res_process.range_2_num(search_res)
     print(s_res, e_res)
     return(
-        plotly_plot.plot(df, s = s_res-step, e= e_res+step, step = step)
+        plotly_plot.plot(df, s_res = s_res, e_res= e_res, step = step)
     )
 
 
