@@ -4,16 +4,22 @@ from utils.data_process import input_process, res_process
 import numpy as np
 
 
-def get_sim_res(df, s, e, algo = None, rank = 1):
+def GetSimRes(df, s, e, algo = None, rank = 1, scalar_func = input_process.BatchScaler.min_max_scalar):
     '''
-    algo = ["shape_d", "mink_d", "corr_d", "dtw_d", "poly_d", "polycos_d"]
-    rank is the top three similar interval
+    Input: 
+        df -> pd dataframe 
+        s,e -> int, the index of pd dataframe (if input date, needed DateIndexMap for conversion)
+        algo -> function, the distance functions in algo
+        rank -> int, the first n similarity result you want to obtain
+        scalar_func -> function, the standardization method
+
+    Option:
+        algo = ["shape_d", "mink_d", "corr_d", "dtw_d", "poly_d", "polycos_d"]
+        scalar_func = min_max_scalarr, std_scalar, ret, log_diff
     '''
-
-
     # proccess data
+    input_proccess =  input_process.FullWavScaler(full_wav=np.array(df['Close']), start_p=s, end_p=e, scalar_func=scalar_func)
 
-    input_proccess = input_process.full_wav_scalar(full_wav=np.array(df['Close']), start_p=s, end_p=e, scalar_mehod="min_max")
     full_wav_std = input_proccess.apply_wav()
     baseline_wav_std = full_wav_std[s:e]
 
@@ -25,11 +31,8 @@ def get_sim_res(df, s, e, algo = None, rank = 1):
 
     # sort dict
     if algo=="corr_d" or algo=="polycos_d":
-    # if algo=="corr_d":
-        # print(algo)
         res_d_sorted = dict(sorted(res_d[algo].items(), key=lambda item: item[1], reverse=True))
     else:
-        print(algo)
         res_d_sorted = dict(sorted(res_d[algo].items(), key=lambda item: item[1]))
 
     # result list

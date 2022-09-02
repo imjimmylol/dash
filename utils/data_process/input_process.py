@@ -11,7 +11,7 @@ def IndexDateMap(df, index):
     return df["Date"][index]
 
 
-class batch_scalar:
+class BatchScaler:
     """
     輸入1個arr回傳1個等長arr
     - min_max std_scalar 會返回等長序列
@@ -45,13 +45,11 @@ class batch_scalar:
         arr_diff = pd.Series(arr_log).diff(1).dropna()
         return np.array(arr_diff)
 
-
-class full_wav_scalar():
-    
-    def __init__(self, full_wav, start_p, end_p, scalar_mehod=None):
+class FullWavScaler:
+    def __init__(self, full_wav, start_p, end_p, scalar_func=None):
         self.full_wav = np.array(full_wav)
         self.step = end_p-start_p
-        self.scalar_method = scalar_mehod
+        self.scalar_funct = scalar_func
 
     def apply_wav(self):
         res = np.empty(shape=(0,1))
@@ -63,14 +61,7 @@ class full_wav_scalar():
             end = self.step+i*self.step
             
             batch_wav = self.full_wav[start:end]
-
-            scalar_dict = {
-            "min_max":batch_scalar.min_max_scalar(batch_wav),
-            "std":batch_scalar.std_scalar(batch_wav),
-            "ret":batch_scalar.ret(batch_wav),
-            "log_diff":batch_scalar.log_diff(batch_wav)
-        }
-            # print(type(scalar_dict['{}'.format(self.scalar_method)]))
-            res = np.append(res, scalar_dict['{}'.format(self.scalar_method)])
+            
+            res = np.append(res, self.scalar_funct(batch_wav))
 
         return res

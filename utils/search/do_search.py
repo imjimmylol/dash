@@ -7,6 +7,10 @@ class search():
 
         self.baseline_wav = baseline_wav
         self.full_wav = full_wav
+        self.scalar_map = dict({
+            
+        })
+
 
     def run_search_test(self, proccess_method=None, algo_option=None):
         res_d = {}
@@ -21,7 +25,7 @@ class search():
                 res = dtw_d(self.baseline_wav, target_wav)
 
             elif algo_option == "corr_d":
-                res = corr(self.baseline_wav, target_wav)
+                res = corr_d(self.baseline_wav, target_wav)
 
             elif algo_option == "mink_d":
                 res = mink_d(self.baseline_wav, target_wav)
@@ -33,7 +37,7 @@ class search():
                 res = poly_d(self.baseline_wav, target_wav)
 
             elif algo_option == "polycos_d":
-                res = poly_cos_d(self.baseline_wav, target_wav)
+                res = polycos_d(self.baseline_wav, target_wav)
 
             if res != None:
 
