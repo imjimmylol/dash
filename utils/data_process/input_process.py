@@ -46,22 +46,20 @@ class BatchScaler:
         return np.array(arr_diff)
 
 class FullWavScaler:
-    def __init__(self, full_wav, start_p, end_p, scalar_func=None):
-        self.full_wav = np.array(full_wav)
+    def __init__(self, start_p, end_p, scalar_func=None):
         self.step = end_p-start_p
-        self.scalar_funct = scalar_func
+        self.scalar_func = scalar_func
 
-    def apply_wav(self):
+    def apply_wav(self, full_wav):
         res = np.empty(shape=(0,1))
-        run_num = int(len(self.full_wav)/(self.step))
+        run_num = int(len(full_wav)/(self.step))
 
         for i in range(run_num):
-            
             start = 0+i*self.step
             end = self.step+i*self.step
             
-            batch_wav = self.full_wav[start:end]
+            batch_wav = full_wav[start:end]
             
-            res = np.append(res, self.scalar_funct(batch_wav))
+            res = np.append(res, self.scalar_func(batch_wav))
 
         return res

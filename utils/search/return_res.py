@@ -1,5 +1,5 @@
 from re import search
-from utils.search import do_search
+from utils.search.do_search import Search
 from utils.data_process import input_process, res_process
 import numpy as np
 
@@ -15,7 +15,7 @@ def GetSimRes(df, s, e, algo = None, rank = 1, scalar_func = input_process.Batch
 
     Option:
         algo = ["shape_d", "mink_d", "corr_d", "dtw_d", "poly_d", "polycos_d"]
-        scalar_func = min_max_scalarr, std_scalar, ret, log_diff
+        scalar_func = min_max_scalar, std_scalar, ret, log_diff
     '''
     # proccess data
     input_proccess =  input_process.FullWavScaler(full_wav=np.array(df['Close']), start_p=s, end_p=e, scalar_func=scalar_func)
